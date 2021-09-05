@@ -4,7 +4,6 @@ This was specifically inspired by a web-based game called Josh Trouble (creator 
 Controls:
 
 (Point + A) Select
-
 (D-Pad) Move
 
 (2) Shoot
