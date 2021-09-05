@@ -1,7 +1,6 @@
 # wii-trouble
 This was specifically inspired by a web-based game called Josh Trouble (creator unknown) which can be found here: https://tinyurl.com/joshtrouble
 
-## Controls
 (Point + A) Select
 (D-Pad) Move
 (2) Shoot
