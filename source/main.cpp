@@ -109,13 +109,14 @@ int main(int argc, char** argv) {
 
 	// initialize a few variables that will need to be kept between frames
 	bool inMenu = true; // indicates whether or not the menu is active (false if game is being played)
+	bool music = true; // indicates whether music should be played
 	int tankCount = 0; // number of tanks to be spawned at the beginning of each game (defaults to 0 but must be selected on the menu before any games are started)
 
 	// main loop
 	while (1) {
 
 		// music
-		if (!MP3Player_IsPlaying()) MP3Player_PlayBuffer(music_mp3, music_mp3_size, NULL);
+		if (music && !MP3Player_IsPlaying()) MP3Player_PlayBuffer(music_mp3, music_mp3_size, NULL);
 		
 		// this is set to true when an exit condition is met to indicate that this will be the final frame
 		bool lastFrame = false;
@@ -125,6 +126,16 @@ int main(int argc, char** argv) {
 		for (int player = 0; player < 4; player++) {
 			// exit (home)
 			if (WPAD_ButtonsDown(player) & WPAD_BUTTON_HOME) lastFrame = true;
+			// stop/start music (-)
+			if (WPAD_ButtonsDown(player) & WPAD_BUTTON_MINUS) {
+				if (MP3Player_IsPlaying()) {
+					music = false;
+					MP3Player_Stop();
+				}
+				else {
+					music = true;
+				}
+			}
 			// go to menu (+)
 			if (!inMenu && WPAD_ButtonsDown(player) & WPAD_BUTTON_PLUS) {
 				// play explosion sound and go to menu

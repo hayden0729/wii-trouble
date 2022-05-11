@@ -1,9 +1,8 @@
 # private stuff for convenience
 
 references
-changelog.txt
-*.bat
 *.lnk
+*.bat
 
 # compiled stuff
 

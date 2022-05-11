@@ -6,8 +6,8 @@ void Tank::Update(LayerManager* tankManager, LayerManager* wallManager, LayerMan
 	// get inputs
 	u16 buttonsHeld = WPAD_ButtonsHeld(player);
 	u16 buttonsDown = WPAD_ButtonsDown(player);
-	// variables for button holding for the sake of conciseness/readability (directions corrected for sideways wiimote)
-	u16 upHeld = buttonsHeld & WPAD_BUTTON_RIGHT;
+	// variables for button holding for the sake of conciseness/readability (directions corrected for sideways wiimote, also as of v1.1 up is 2 instead of d-pad)
+	u16 upHeld = buttonsHeld & WPAD_BUTTON_2;
 	u16 downHeld = buttonsHeld & WPAD_BUTTON_LEFT;
 	u16 leftHeld = buttonsHeld & WPAD_BUTTON_UP;
 	u16 rightHeld = buttonsHeld & WPAD_BUTTON_DOWN;
@@ -52,8 +52,8 @@ void Tank::Update(LayerManager* tankManager, LayerManager* wallManager, LayerMan
 			};
 		};
 	};
-	// 2 (shoot bullet)
-	if (buttonsDown & WPAD_BUTTON_2 && HasAmmo(bulletManager)) Shoot(wallManager, bulletManager);
+	// 1 (shoot bullet)
+	if (buttonsDown & WPAD_BUTTON_1 && HasAmmo(bulletManager)) Shoot(wallManager, bulletManager);
 }
 void Tank::SetMoveSpeed(f32 moveSpeed) { this->moveSpeed = moveSpeed; }
 void Tank::SetTurnSpeed(f32 turnSpeed) { this->turnSpeed = turnSpeed; }
@@ -99,7 +99,7 @@ bool Tank::HasAmmo(LayerManager* bulletManager) {
 void Tank::Shoot(LayerManager* wallManager, LayerManager* bulletManager) {
 	// spawn bullet at the front of the tank, subtracting speed to spawn it inside initially (it'll move before collision detection)
 	f32 bulletRadius = 2.0;
-	f32 bulletSpeed = 4.0;
+	f32 bulletSpeed = initialMoveSpeed * 2.0;
 	f32 radRotation = GetRotation() * 2.0 * (M_PI / 180.0); // convert rotation (in degrees/2) to radians
 	f32 bulletX = GetX() + GetWidth() / 2 + cos(radRotation) * (12 + bulletRadius) - cos(radRotation) * bulletSpeed;
 	f32 bulletY = GetY() + GetHeight() / 2 + sin(radRotation) * (12 + bulletRadius) - sin(radRotation) * bulletSpeed;

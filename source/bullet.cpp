@@ -34,9 +34,11 @@ void Bullet::Update(LayerManager* bulletManager, LayerManager* wallManager) { //
 		return;
 	}
 	// movement
-	f32 radRotation = GetRotation() * 2.0 * (M_PI / 180.0); // convert rotation (in degrees/2) to radians
+	f32 initialRotation = GetRotation();
+	f32 radRotation = initialRotation * 2.0 * (M_PI / 180.0); // convert rotation (in degrees/2) to radians
 	Move(speed * cos(radRotation), speed * sin(radRotation));
 	// collision check
+	bool firstCollision = true;
 	for (int wallNum = 0; wallNum < (int) wallManager->GetSize(); wallNum++) {
 		Quad* wall = (Quad*) wallManager->GetLayerAt(wallNum);
 		if (CollisionPossible(this, wall)) {
@@ -46,10 +48,13 @@ void Bullet::Update(LayerManager* bulletManager, LayerManager* wallManager) { //
 				f32 axisMultiplier = collision[2] / sqrt(pow(collision[0], 2) + pow(collision[1], 2));
 				Move(collision[0] * axisMultiplier, collision[1] * axisMultiplier);
 				// get the penetration vector's angle (divided by 2 as that is the standard in libwiisprite) and flip the bullet's angle around that angle
+				// this uses initialRotation rather than the current rotation to prevent bad bounces; this way, the last wall the bulet collides with
+				// (so the one guaranteed to put it into open space) is the one it's reflected on
 				f32 penetrationAngle = atan2(collision[1], collision[0]) * (180.0 / M_PI) / 2;
-				SetRotation(fmod(-GetRotation() + 2 * penetrationAngle + 90, 180)); // add 90 to reverse direction
-				// make hit sound
-				SND_SetVoice(SND_GetFirstUnusedVoice(), VOICE_STEREO_16BIT_LE, 44100, 0, (char*) hit_pcm, hit_pcm_size, 255, 255, NULL);
+				SetRotation(fmod(-initialRotation + 2 * penetrationAngle + 90, 180)); // add 90 to reverse direction
+				// make hit sound (max of once per frame, hence firstCollision)
+				if (firstCollision) SND_SetVoice(SND_GetFirstUnusedVoice(), VOICE_STEREO_16BIT_LE, 44100, 0, (char*) hit_pcm, hit_pcm_size, 255, 255, NULL);
+				firstCollision = false;
 			}
 		}
 	}
