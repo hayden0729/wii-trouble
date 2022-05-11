@@ -1,16 +1,17 @@
-<?xml version="1.1" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <app version="1">
 	<name>Wii Trouble</name>
 	<coder>hayden0729</coder>
-	<version>1.0</version>
+	<version>1.1</version>
 	<release_date>20210905000000</release_date>
 	<short_description>Basic multiplayer tank game</short_description>
 	<long_description>Tank Trouble-esque multiplayer game, specifically inspired by a web-based game called Josh Trouble (creator unknown) which can be found here: https://tinyurl.com/joshtrouble
 
 Controls:
 (Point + A) Select
-(D-Pad) Move
-(2) Shoot
+(1) Shoot
+(2) Move forwards
+(D-Pad) Turn
 (+) Main menu
 (Home) Exit to loader
 
