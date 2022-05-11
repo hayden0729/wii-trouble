@@ -1,9 +1,12 @@
-assets\ (for\ reference)
-backups
-build
-compile.bat
+# private stuff for convenience
+
+references
 changelog.txt
-Wii.lnk
-wiitrouble.dol
-wiitrouble.elf
-wiitrouble.zip
+*.bat
+*.lnk
+
+# compiled stuff
+
+build
+*.dol
+*.elf
